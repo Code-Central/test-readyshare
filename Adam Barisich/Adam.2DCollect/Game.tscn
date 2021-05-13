@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+[ext_resource path="res://RockBG.png" type="Texture" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HOMOARAK.TTF" type="DynamicFontData" id=4]
+[ext_resource path="res://UkuleleSong.wav" type="AudioStream" id=5]
+[ext_resource path="res://Coin01.wav" type="AudioStream" id=6]
+[ext_resource path="res://Bomb-SoundBible.com-891110113.wav" type="AudioStream" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+outline_color = Color( 0.984314, 0.0627451, 0.0627451, 1 )
+font_data = ExtResource( 4 )
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 509.24, 270.22 )
+scale = Vector2( 4.53505, 4.54827 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 554.8, 176.7 )
+
+[node name="CoinSpawner" type="Timer" parent="."]
+
+[node name="BombSpawner" type="Timer" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="GameOver" type="Label" parent="UI"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -69.3229
+margin_top = -7.95599
+margin_right = -42.3229
+margin_bottom = 17.044
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.984314, 0.0235294, 0.0235294, 1 )
+text = "     YOU'VE DIED UNFOTUNATEY THE BOMBS HAVE FOUND YOU"
+align = 1
+
+[node name="Score" type="Label" parent="UI"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 84.0
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.321569, 0.94902, 0.0352941, 1 )
+text = "Score: 0"
+
+[node name="BackgroundSong" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+
+[node name="CoinGrab" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="BombHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+[connection signal="timeout" from="CoinSpawner" to="." method="_on_CoinSpawner_timeout"]
+[connection signal="timeout" from="BombSpawner" to="." method="_on_BombSpawner_timeout"]

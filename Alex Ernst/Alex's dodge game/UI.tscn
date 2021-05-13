@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/ConquistadormanNF.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+font_data = ExtResource( 2 )
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource( 1 )
+
+[node name="Score" type="Label" parent="."]
+margin_left = 417.0
+margin_right = 617.0
+margin_bottom = 62.0
+custom_fonts/font = SubResource( 1 )
+text = "Score: 0"
+align = 1
+
+[node name="Message" type="Label" parent="."]
+margin_left = 238.684
+margin_top = 107.158
+margin_right = 822.684
+margin_bottom = 248.158
+custom_fonts/font = SubResource( 2 )
+text = "There Is no doubt that you are worthless.
+You are nothing.
+You will become the hunted.
+You will undoubtably fail.
+
+"
+align = 1
+
+[node name="Start" type="Button" parent="."]
+margin_left = 277.158
+margin_top = 325.053
+margin_right = 806.158
+margin_bottom = 396.053
+custom_fonts/font = SubResource( 3 )
+text = "PROVE YOUR WORTH"
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]

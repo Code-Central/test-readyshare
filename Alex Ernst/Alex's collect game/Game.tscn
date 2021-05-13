@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+[ext_resource path="res://New Piskel (7).png" type="Texture" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Coin.tscn" type="PackedScene" id=4]
+[ext_resource path="res://BeepBox-Song (2).wav" type="AudioStream" id=5]
+[ext_resource path="res://HOMOARAK.TTF" type="DynamicFontData" id=6]
+[ext_resource path="res://BeepBox-Song.wav" type="AudioStream" id=7]
+[ext_resource path="res://BeepBox-Song (1).wav" type="AudioStream" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 36
+font_data = ExtResource( 6 )
+
+[node name="Game" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 521.386, 393.34 )
+scale = Vector2( 4.1332, 3.21652 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+
+[node name="Coin" parent="." instance=ExtResource( 4 )]
+position = Vector2( 852.217, 138.962 )
+
+[node name="CoinPooperOuter" type="Timer" parent="."]
+
+[node name="Bomb spawner" type="Timer" parent="."]
+
+[node name="CoinGrab" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="GameOver" type="Label" parent="UI"]
+margin_left = 62.9521
+margin_top = 501.439
+margin_right = 1010.95
+margin_bottom = 578.439
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.776471, 0.0862745, 0.0862745, 1 )
+text = "On nights like this, pesks like you get sqaushed
+like a bug."
+align = 1
+
+[node name="Score" type="Label" parent="UI"]
+margin_right = 109.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.203922, 0.584314, 0.0980392, 1 )
+text = "Score: 0"
+
+[node name="The_Beast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+autoplay = true
+
+[node name="Ded" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+[connection signal="timeout" from="CoinPooperOuter" to="." method="_on_CoinPooperOuter_timeout"]
+[connection signal="timeout" from="Bomb spawner" to="." method="_on_Bomb_spawner_timeout"]

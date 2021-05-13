@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/death-Roman_K-1190383229.wav-a2a5fc8ca3f321b2bd9dee777358f472.sample"
+
+[deps]
+
+source_file="res://death-Roman_K-1190383229.wav"
+dest_files=[ "res://.import/death-Roman_K-1190383229.wav-a2a5fc8ca3f321b2bd9dee777358f472.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

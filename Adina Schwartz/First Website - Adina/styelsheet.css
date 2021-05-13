@@ -1,0 +1,66 @@
+@font-face {
+  font-family: stardewValley;
+  src: url(Stardew_Valley.ttf);
+}
+
+
+body {
+    background-image: url("./images/Bk.jpg");
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    font-family: stardewValley;
+    margin-right: 20%;
+    margin-left: 20%;
+    border-width: 2xp;
+    border-style: solid;
+    border-color: black;
+    padding-left: 10px;
+    padding-right: 10px;
+    scroll-behavior: smooth;
+}
+h1 {
+    text-align: center;
+    border-bottom-width: 1 px;
+    border-bottom-style: dashed;
+    border-bottom-color:rgb(255, 105, 118)
+}
+img{
+    border-radius: 50%;
+    width: 50%;
+    height: 25%;
+    border-style: solid;
+    border-color: black;
+    display: block;
+    margin-left: 25%;
+    margin-right: 25;
+    background-color: rgb(243, 235, 224)
+}
+div{    
+} 
+#header{
+    background-color: yellow;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+.footer {
+    background-color: yellow;
+    text-align: center;
+    border-width: 1px;
+
+
+}
+
+#list {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 15px;
+    margin-left: 35%;
+}
+#navlinks {
+    position: fixed;
+
+}

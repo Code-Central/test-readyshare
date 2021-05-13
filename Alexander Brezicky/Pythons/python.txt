@@ -1,0 +1,14 @@
+numArray = []
+
+newNum = 0
+while (newNum != "done"):
+    newNum = input("Give me a number! Type 'done' when done! ")
+    if newNum != "done":
+        newNum = int(newNum)
+        numArray.append(newNum)
+
+y = 0
+for x in numArray:
+    y = x + y
+
+print("This equals " + str(y))("This equals " + numArray[x])

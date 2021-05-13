@@ -1,0 +1,57 @@
+body {
+    background-color: yellowgreen;
+}
+
+
+
+
+img {
+    border-radius: 45%;
+    width: 40%;
+    height: 15%;
+    border-width: 5px;
+    border-style: solid;
+    border-color:black;
+    display: block;
+    margin-left: 25%;
+    margin-right: 25%;
+
+}
+
+#header {
+background-color: green;
+text-align: center;
+border-width: 1px;
+border-style: solid;
+border-color: black;
+
+
+}
+
+#list {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 15px;
+    margin-left: 35%;
+
+
+
+
+}
+
+#navlinks {
+    position: fixed;
+
+}
+
+#Fan {
+
+  border-width: 5px;
+    border-style: solid;
+    border-color: black;
+    
+    
+
+
+}

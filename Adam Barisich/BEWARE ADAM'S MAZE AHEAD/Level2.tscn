@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Level2.gd" type="Script" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://newMesh_library.meshlib" type="MeshLibrary" id=3]
+[ext_resource path="res://I will kill you.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Goal.tscn" type="PackedScene" id=5]
+
+[sub_resource type="PlaneMesh" id=1]
+
+[node name="Level2" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, -0.068882, -0.0238857, -0.0314188 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.0516039, -0.00246734, 0.998665, -0.000127324, 0.999997, 0.00246405, -0.998668, 0, -0.051604, -0.721933, 0.242596, 1.11861 )
+
+[node name="GridMap" type="GridMap" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528183, 0 )
+mesh_library = ExtResource( 3 )
+data = {
+"cells": PoolIntArray( 0, 2, 327680, 65528, 2, 1376256, 65530, 2, 327680, 65532, 2, 327680, 65533, 2, 537198592, 65534, 2, 327680, 65535, 2, 327680, 65530, 3, 327680, 65530, 4, 327680, 0, 65534, 262144, 65527, 65534, 1376256, 65529, 65534, 0, 65530, 65534, 0, 65531, 65534, 536870912, 65532, 65534, 0, 65534, 65534, 262144, 65535, 65534, 262144 )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="I will kill you" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.63097, 0, 0, 0, 1.09145, 0, 0, 0, 0.6473, -4.63173, -0.517702, 0 )
+
+[node name="I will kill you2" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.734913, 0, 0, 0, 1.09098, 0, 0, 0, 0.649986, -4.63173, -0.602726, 0.940495 )
+
+[node name="I will kill you3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.716896, -6.78548, -0.522635, 1.87108 )
+
+[node name="I will kill you4" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1.09388, 0, 0, 0, 0.780524, -6.78548, -0.556162, -0.388966 )
+
+[node name="I will kill you5" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 0.964251, 0, 0, 0, 0.864515, -8.46015, -0.48343, 0.655932 )
+
+[node name="I will kill you6" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.654191, 0, 0, 0, 1.30991, 0, 0, 0, 0.56803, -9.99369, -0.459159, 1.98782 )
+
+[node name="I will kill you7" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.869692, 0, 0, 0, 1.18438, 0, 0, 0, 0.632746, -9.99369, -0.441242, -0.567741 )
+
+[node name="I will kill you8" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.814989, 0, 0, 0, 1.27507, 0, 0, 0, 0.699474, -11.4785, -0.439446, 2.00274 )
+
+[node name="I will kill you9" parent="." instance=ExtResource( 4 )]
+transform = Transform( 0.766959, 0, 0, 0, 1.26905, 0, 0, 0, 0.849586, -11.4785, -0.466341, 1.06917 )
+
+[node name="Goal" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1.70295, 0, 0, 0, 1, -14.5245, -0.00790405, 1.38112 )
+[connection signal="body_entered" from="Goal" to="." method="_on_Goal_body_entered"]

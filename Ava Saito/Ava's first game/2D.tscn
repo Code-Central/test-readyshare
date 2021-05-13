@@ -1,0 +1,4 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2( -241.752, -66.9125 )

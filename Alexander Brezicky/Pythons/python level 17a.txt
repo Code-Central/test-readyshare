@@ -1,0 +1,21 @@
+weeks = []
+number1 = []
+number2 = []
+number3 = []
+
+week = input("What day of the week is it? type 'done' when done ")
+
+while (week != "done"):
+    num1 = int(input("Give me a random number: "))
+    num2 = int(input("Give me another random number: "))
+    num3 = int(input("Give me another random number: "))
+    
+    weeks.append(week)
+    number1.append(num1)
+    number2.append(num2)
+    number3.append(num3)
+    
+    week = input("What day of the week is it? type 'done' when done ")
+    
+for x in range(0, len(weeks)):
+    print("Today is " + weeks[x] + " and your random number is " + str(number1[x]) + str(number2[x]) + str(number3[x]))

@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+[ext_resource path="res://RockBG.png" type="Texture" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HOMOARAK.TTF" type="DynamicFontData" id=4]
+[ext_resource path="res://UkuleleSong.wav" type="AudioStream" id=5]
+[ext_resource path="res://Coin01.wav" type="AudioStream" id=6]
+[ext_resource path="res://Bomb-SoundBible.com-891110113.wav" type="AudioStream" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 4 )
+
+[node name="Game" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 510.945, 299.364 )
+scale = Vector2( 4.27797, 3.77806 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 699.661, 356.754 )
+
+[node name="CoinSpawner" type="Timer" parent="."]
+
+[node name="BombSpawner" type="Timer" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="GameOver" type="Label" parent="UI"]
+margin_left = 57.0
+margin_top = 244.0
+margin_right = 991.0
+margin_bottom = 269.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "You have met with a terrible fate haven't you?"
+align = 1
+
+[node name="Score" type="Label" parent="UI"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+text = "Score: 0"
+
+[node name="BackgroundSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+
+[node name="CoinGrab" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="BombHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+[connection signal="timeout" from="CoinSpawner" to="." method="_on_CoinSpawner_timeout"]
+[connection signal="timeout" from="BombSpawner" to="." method="_on_BombSpawner_timeout"]

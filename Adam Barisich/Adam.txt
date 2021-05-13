@@ -1,0 +1,27 @@
+name1 = int(input("How many years have you been coding for? "))
+name =  input("what is your name? ")
+print( name + "has been coding for" + name1 + "years!")Path = input("Lets Kill A Dog Or Cat who will you kill ")
+
+if Path == "A Dog":
+  print("Ok Sure!")
+
+Where = input("Ok were are we going to stab the leg or the lung and heart. ")
+
+if Where == "Lung and heart":
+  print("Good Blood yummy")
+elif Where == "Leg":
+  print("Bro It Did not die but it is in pain so am happy")
+else:
+  print("HEY STAB IT WHERE DUMMY KILL THE DOG FAT BOY")
+if Path == "A Cat":
+if Path == "A Cat":
+  print("Ok Sure!")
+
+Wher = input("Ok were are we going to stab the leg or the lung and heart. ")
+
+if Wher == "Lung and heart":
+  print("Good Blood yummy")
+elif Wher == "Leg":
+  print("Bro It Did not die but it is in pain so am happy")
+else:
+  print("HEY STAB IT WHERE DUMMY KILL THE CAT FAT BOY")

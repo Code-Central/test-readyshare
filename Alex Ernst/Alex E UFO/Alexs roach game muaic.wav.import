@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Alexs roach game muaic.wav-e7d052f2909ba860d056ebae52905578.sample"
+
+[deps]
+
+source_file="res://Alexs roach game muaic.wav"
+dest_files=[ "res://.import/Alexs roach game muaic.wav-e7d052f2909ba860d056ebae52905578.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

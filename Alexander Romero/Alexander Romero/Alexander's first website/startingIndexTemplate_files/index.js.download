@@ -1,0 +1,438 @@
+// Global variables
+let currentPage = 0; // Current page (replace with a call for most recent page?)
+let maxPages; // How many pages are in this document (set in function below)
+let pageChange = 0; // Used to know if we are changing pages, and determines which direction we are going
+let pages = []; // To hold the whole page element
+let pageNums = []; // To hold individual pagination links
+let pagesToShow = 7; // How many page numbers to show at a time
+
+// Initial position of the first page (set in the "firstRun" function)
+let leftPos;
+let topPos;
+
+function firstRun() {
+    // How many pages?
+    pages = document.getElementsByClassName("Page");
+    maxPages = pages.length - 1;
+
+    // Display current page (default is 1)
+    pages[currentPage].style.display = "block";
+
+    // Create the pagination
+    updatePagination();
+
+    // Handle the Page Jump
+    updatePageJump();
+
+    // Set listener for all pages to check when an animation ends, and then do something appropriately
+    for (var i = 0; i < pages.length; i++) {
+        pages[i].addEventListener("animationend", function () {
+            // Add an event listener to the "answer" button (if exists)
+            var answerButton = pages[currentPage].querySelector("#answer");
+            if (answerButton != null) {
+                answerButton.addEventListener("click", function() {
+                    // Check all possible answers and see if any were clicked
+                    answerPicked = false;
+                    answerCorrect = false;
+                    answerChoices = document.getElementsByName("checkpoint");
+                    for (var i = 0; i < answerChoices.length; i++) {
+                        if (answerChoices[i].checked && answerButton.closest(".Page").getAttribute("data-page") == answerChoices[i].closest(".Page").getAttribute("data-page")) {
+                            // Enter correct answers per concept checkpoint here:
+                            //// Tell them correct or incorrect
+                            answerCorrect = checkAnswer(answerButton.closest(".Page").getAttribute("data-page"), answerChoices[i].value);
+
+                            answerPicked = true;
+                        }
+                    }
+                    // Show the concept checkpoint if an answer was selected
+                    if (answerPicked && answerCorrect) {
+                        pages[currentPage].querySelector("#AfterCheckpoint").style.display = "block";
+                    }
+                    else if (!answerPicked) {
+                        alert("Please choose an answer first.")
+                    }
+                });
+            }
+
+            // Make sure that it is the old page and not the new page
+            //// (They both just went through an animation, we don't want both pages disappearing)
+            if (pages[currentPage + pageChange].getAttribute("data-change") == "yes") {
+                // Hide the old page (we use "pageChange" to go in the direction of the old page)
+                pages[currentPage + pageChange].style.display = "none";
+                pages[currentPage].style.position = "static"; // "Static" so that the page is where it's supposed to be in the page
+                pages[currentPage + pageChange].setAttribute("data-change", "no"); // Reset back to not changing
+                pageChange = 0; // Reset so we can change the page again
+            }
+        });
+    }
+} // end firstun
+
+// Function to update the pagination bar and
+//// Keep the appropriate pages always displaying
+function updatePagination() {
+    // Reload the pagination bar with all the new stuff
+
+    // Create pagination system
+    var pagination = document.getElementById("pagination");
+
+    // Variable to convert the "currentPage" variable to correctly access the proper
+    //// pageNums element equivlent
+    activePage = currentPage;
+
+    // Create "Previous button"
+    pagination.innerHTML = "<p id='previous'>&laquo;</p>";
+
+    // Do we need an elipsis?
+    //// It would happen if we have more pages on the worksheet then we have spaces for
+    if (pages.length > pagesToShow && currentPage - Math.floor(pagesToShow/2) > 0) {
+        // Create "paginated" numbers
+        var morePagesToGoForward = true;
+        var morePagesToGoBackward = true;
+
+        // Update the "activePage" variable
+        activePage = Math.floor(pagesToShow/2);
+
+        // Check if we have more pages ahead of us
+        if (currentPage + Math.floor(pagesToShow/2) >= pages.length - 1) {
+            morePagesToGoForward = false;
+        }
+        // Check if we have more pages behind us
+        if (currentPage - Math.floor(pagesToShow/2) < 0) {
+            morePagesToGoBackward = false;
+        }
+
+        // Display some elipsis if there are more pages behind us:
+        if (morePagesToGoBackward) {
+            pagination.innerHTML += "<p>...</p>";
+        }
+
+        // Figure out how far max we can go
+        var firstPageToShow;
+        var finalPageToShow;
+
+        if (currentPage + Math.floor(pagesToShow/2) < pages.length){
+            finalPageToShow = currentPage + Math.ceil(pagesToShow/2);
+
+            firstPageToShow = currentPage - Math.floor(pagesToShow/2);
+        }
+        else {
+            finalPageToShow = pages.length;
+
+            firstPageToShow = pages.length - pagesToShow;
+
+            activePage = pagesToShow - (pages.length - currentPage);
+        }
+        for (var i = firstPageToShow; i < finalPageToShow; i++) {
+            pagination.innerHTML += "<p class='singlePage'>" + (i+1) + "</p>";
+        }
+
+        // Create array to hold all current page elements
+        pageNums = document.getElementsByClassName("singlePage");
+
+        // Display some elipsis if there are more pages to go:
+        if (morePagesToGoForward) {
+            pagination.innerHTML += "<p>...</p>";
+        }
+    }
+    // Create the pages as normal
+    else {
+        var morePagesToGoForward = true;
+
+        // Check if we have more pages ahead of us
+        if (currentPage + Math.ceil(pagesToShow/2) > pages.length) {
+            morePagesToGoForward = false;
+        }
+
+        for (var i = 0; i < pagesToShow; i++) {
+            pagination.innerHTML += "<p class='singlePage'>" + (i+1) + "</p>";
+        }
+
+        // Create array to hold all current page elements
+        pageNums = document.getElementsByClassName("singlePage");
+
+        // Display some elipsis if there are more pages to go:
+        if (morePagesToGoForward) {
+            pagination.innerHTML += "<p>...</p>";
+        }
+    }
+
+    // Create "Next" button
+    pagination.innerHTML += "<p id='next'>&raquo;</p>";
+
+    // Set the active class
+    pageNums[activePage].classList.add("activePage");
+
+    // Event handler for when the "singlePage" button is pressed
+    for (var i = 0; i < pageNums.length; i++) {
+        let clickedI = i;
+        pageNums[i].addEventListener("click", function() {
+            // Make sure that if there is a concept checkpoint that they answer it first
+            //// (This id to try and limit the students who may try and cheat if they don't know the answer)
+            var conceptDone;
+            var afterCheckpoint = pages[currentPage].querySelector("#AfterCheckpoint");
+            if (afterCheckpoint != null && window.getComputedStyle(afterCheckpoint).getPropertyValue("display") == "none") {
+                conceptDone = false;
+            }
+            else {
+                conceptDone = true;
+            }
+
+            if (conceptDone) {
+                // Scroll back to the top of the screen
+                window.scrollTo(0, 0);
+
+                pages[currentPage].style.display = "none";
+
+                currentPage = pageNums[clickedI].innerHTML - 1;
+
+                pages[currentPage].style.display = "block";
+                pages[currentPage].style.position = "static"; // "Static" so that the page is where it's supposed to be in the page
+
+                // Add an event listener to the "answer" button (if exists)
+                var answerButton = pages[currentPage].querySelector("#answer");
+                if (answerButton != null) {
+                    answerButton.addEventListener("click", function() {
+                        // Check all possible answers and see if any were clicked
+                        answerPicked = false;
+                        answerCorrect = false;
+                        answerChoices = document.getElementsByName("checkpoint");
+                        for (var i = 0; i < answerChoices.length; i++) {
+                            if (answerChoices[i].checked && answerButton.closest(".Page").getAttribute("data-page") == answerChoices[i].closest(".Page").getAttribute("data-page")) {
+                                // Enter correct answers per concept checkpoint here:
+                                //// Tell them correct or incorrect
+                                answerCorrect = checkAnswer(answerButton.closest(".Page").getAttribute("data-page"), answerChoices[i].value);
+
+                                answerPicked = true;
+                            }
+                        }
+                        // Show the concept checkpoint if an answer was selected
+                        if (answerPicked && answerCorrect) {
+                            pages[currentPage].querySelector("#AfterCheckpoint").style.display = "block";
+                        }
+                        else if (!answerPicked) {
+                            alert("Please choose an answer first.")
+                        }
+                    });
+                }
+
+                // Update the pagination
+                updatePagination();
+            }
+            else {
+                alert("Please answer the concept checkpoint question first");
+            }
+        });
+    }
+
+
+    // Event handler for when the "previous" button is pressed
+    document.getElementById("previous").addEventListener("click", function () {
+        // Make sure we are not on the first page or are in the middle of a page change
+        if (currentPage > 0 && pageChange == 0) {
+            
+            // Scroll back to the top of the screen when the animation is over
+            window.scrollTo(0, 0);
+
+            // Set an ending animation for the old page
+            pages[currentPage].style.WebkitAnimation = "oldPage 1s";
+            pages[currentPage].style.animation = "oldPage 1s";
+            pages[currentPage].setAttribute("data-change", "yes"); // Set that this will be the one to disappear
+
+            // Change the page and set which direction our page went
+            currentPage--;
+            pageChange = 1;
+
+            // Update the pagination
+            updatePagination();
+
+            // Display our new page and set the position to be right on top of the old one
+            pages[currentPage].style.display = "block";
+            pages[currentPage].style.position = "relative";
+
+            // Set the animation
+            pages[currentPage].style.WebkitAnimation = "newPageLeft 1s";
+            pages[currentPage].style.animation = "newPageLeft 1s";
+        }
+    });
+
+    // Event handler for when the "next" button is pressed (nearly identical code to event handler above)
+    document.getElementById("next").addEventListener("click", function () {
+        // Make sure we are not on the last page or are in the middle of a page change
+        if (currentPage < maxPages && pageChange == 0) {
+            // Also make sure that if there is a concept checkpoint that they answer it first
+            var conceptDone;
+            var afterCheckpoint = pages[currentPage].querySelector("#AfterCheckpoint");
+            if (afterCheckpoint != null && window.getComputedStyle(afterCheckpoint).getPropertyValue("display") == "none") {
+                conceptDone = false;
+            }
+            else {
+                conceptDone = true;
+            }
+
+            if (conceptDone) {
+                // Scroll back to the top of the screen when the animation is over
+                window.scrollTo(0, 0);
+
+                // Get current position of this element
+                var bodyXY = document.body.getBoundingClientRect();
+                var pageXY = pages[currentPage].getBoundingClientRect();
+                topOffset = bodyXY.top - pageXY.top;
+
+                // Set an ending animation for the old page
+                pages[currentPage].style.WebkitAnimation = "oldPage 1s";
+                pages[currentPage].style.animation = "oldPage 1s";
+                pages[currentPage].setAttribute("data-change", "yes"); // Set that this will be the one to disappear
+
+                // Change the page and set which direction our page went
+                currentPage++;
+                pageChange = -1;
+
+                // Update the pagination
+                updatePagination();
+
+                // Display our new page and set the position to be right on top of the old one
+                pages[currentPage].style.display = "block";
+                pages[currentPage].style.position = "absolute";
+                //pages[currentPage].offsetLeft = leftPos;
+                pages[currentPage].style.bottom = 0 + topOffset;
+
+
+                // Set the animation
+                pages[currentPage].style.WebkitAnimation = "newPageRight 1s";
+                pages[currentPage].style.animation = "newPageRight 1s";
+            }
+            else {
+                alert("Please answer the concept checkpoint question first");
+            }
+        }
+    });
+} // end updatePagination
+
+// Function to initialize and configure the page jump feature
+function updatePageJump() {
+    // Find the input id (which is the only thing that matters)
+    var pageJump = document.getElementById("pageJumpNumber");
+
+    // Set the min and max of the page jumper
+    pageJump.min = 1;
+    pageJump.max = maxPages + 1;
+    pageJump.value = currentPage+1;
+
+    // Not allow bad values in the box
+    pageJump.addEventListener("input", function() {
+        // if trying to go over
+        if (pageJump.value > maxPages + 1) {
+            pageJump.value = maxPages + 1;
+        }
+
+        // If trying to keep empty
+        if (pageJump.value < 1) {
+            pageJump.value = 1;
+        }
+    });
+
+    // Jump to a new page when a value is entered
+    pageJump.addEventListener("keyup", function(event) {
+        // Check to make sure that enter was the key entered
+        if (event.keyCode == 13) {
+            event.preventDefault();
+
+            // Make sure that if there is a concept checkpoint that they answer it first
+            //// (This id to try and limit the students who may try and cheat if they don't know the answer)
+            var conceptDone;
+            var afterCheckpoint = pages[currentPage].querySelector("#AfterCheckpoint");
+            if (afterCheckpoint != null && window.getComputedStyle(afterCheckpoint).getPropertyValue("display") == "none") {
+                conceptDone = false;
+            }
+            else {
+                conceptDone = true;
+            }
+
+            if (conceptDone) {
+                // Scroll back to the top of the screen
+                window.scrollTo(0, 0);
+
+                pages[currentPage].style.display = "none";
+
+                currentPage = pageJump.value - 1;
+
+                pages[currentPage].style.display = "block";
+                pages[currentPage].style.position = "static"; // "Static" so that the page is where it's supposed to be in the page
+
+                // Add an event listener to the "answer" button (if exists)
+                var answerButton = pages[currentPage].querySelector("#answer");
+                if (answerButton != null) {
+                    answerButton.addEventListener("click", function() {
+                        // Check all possible answers and see if any were clicked
+                        answerPicked = false;
+                        answerCorrect = false;
+                        answerChoices = document.getElementsByName("checkpoint");
+                        for (var i = 0; i < answerChoices.length; i++) {
+                            if (answerChoices[i].checked && answerButton.closest(".Page").getAttribute("data-page") == answerChoices[i].closest(".Page").getAttribute("data-page")) {
+                                // Enter correct answers per concept checkpoint here:
+                                //// Tell them correct or incorrect
+                                answerCorrect = checkAnswer(answerButton.closest(".Page").getAttribute("data-page"), answerChoices[i].value);
+
+                                answerPicked = true;
+                            }
+                        }
+                        // Show the concept checkpoint if an answer was selected
+                        if (answerPicked && answerCorrect) {
+                            pages[currentPage].querySelector("#AfterCheckpoint").style.display = "block";
+                        }
+                        else if (!answerPicked) {
+                            alert("Please choose an answer first.")
+                        }
+                    });
+                }
+
+                // Update the pagination
+                updatePagination();
+            }
+            else {
+                alert("Please answer the concept checkpoint question first");
+            }
+        }
+    });
+} // end updatePageJump
+
+// function that accepts the data-page and determines if the answer is correct
+function checkAnswer(page, choice) {
+    // List all correct answers
+    answer = "None";
+    switch(page) {
+        case "4": answer = "C"; break;
+        case "6": answer = "A"; break;
+        case "9": answer = "D"; break;
+        case "10": answer = "A"; break;
+        case "12": answer = "B"; break;
+        case "13": answer = "C"; break;
+        case "15": answer = "D"; break;
+        case "16": answer = "B"; break;
+        case "18": answer = "A"; break;
+        case "19": answer = "C"; break;
+        case "20": answer = "D"; break;
+        case "21": answer = "B"; break;
+        case "22": answer = "A"; break;
+        case "23": answer = "D"; break;
+        case "25": answer = "A"; break;
+        case "26": answer = "B"; break;
+        case "27": answer = "C"; break;
+        case "29": answer = "A"; break;
+        default: answer = "No"; break;
+    }
+
+    // Check if the answer is correct or not
+    answerCorrect = false;
+    if (choice == answer) {
+        alert("Epic job!");
+        // Show the info
+        answerCorrect = true;
+    }
+    else {
+        alert("Not quite, try again!");
+    }
+
+    /// Return the results
+    return answerCorrect;
+} // end checkAnswer

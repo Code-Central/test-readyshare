@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/background1.png" type="Texture" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 2.91135, 0.650406, 0, 0, 0, 0, 1.75177, 594.647, 0, 0, 0, 0, 1022.31, 595.813, 0, 0, 0, 0, 1021.14, 0.975243, 0, 0, 0, 0, 2.91135, 0.650406 )
+}
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 512.965, 300.059 )
+scale = Vector2( 0.311274, 0.43476 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+
+[node name="EnemyTimer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="EnmeyPath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="EnemySpawn" type="PathFollow2D" parent="EnmeyPath"]
+position = Vector2( 2.91135, 0.650406 )
+rotation = 1.57275
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+[connection signal="hit" from="Player" to="." method="_on_Player_hit"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

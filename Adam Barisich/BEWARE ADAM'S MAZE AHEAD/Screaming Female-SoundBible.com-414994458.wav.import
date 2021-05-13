@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Screaming Female-SoundBible.com-414994458.wav-801ba4cee34ca3679463044725401162.sample"
+
+[deps]
+
+source_file="res://Screaming Female-SoundBible.com-414994458.wav"
+dest_files=[ "res://.import/Screaming Female-SoundBible.com-414994458.wav-801ba4cee34ca3679463044725401162.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,97 @@
+from random import randint
+
+board = [[" ", " ", " "],
+[" ", " ", " "],
+[" ", " ", " "]]
+squares = 9
+winCondition = True
+
+while (squares != 0) and (winCondition):
+    row = randint(0, 2)
+    col = randint(0, 2)
+    if board[row][col] == " ":
+        board[row][col] = "O"
+        squares = squares - 1
+    
+    userRow = int(input("Choose a number between 0 and 2 to put your \"X\". "))
+    userCol = int(input("Choose a number between 0 and 2 to put your \"X\". "))
+    
+
+        
+    
+    if board[userRow][userCol] == "O":
+        print("Can't go there.")
+    elif board[row][col] == "X":
+        row = randint(0, 2)
+        col = randint(0, 2)
+        if board[row][col] == " ":
+            board[row][col] = "O"
+            squares = squares - 1
+    else:
+        board[userRow][userCol] = "X"
+        squares = squares - 1
+    for i in range(0, 3):
+        print(board[i])
+        
+    for k in range(0, 3):
+        # Setup Row
+        x_count = 0
+        o_count = 0
+        
+        for j in range(0, 3):
+            if board[k][j] == "X":
+                x_count += 1
+            elif board[k][j] == "O":
+                o_count += 1
+        
+        # Rap Up
+        if (x_count == 3):
+            print("You win")
+            winCondition = False
+        elif (o_count == 3):
+            print("You lost")
+            winCondition = False
+                   
+    for j in range(0, 3):
+        # Setup Column
+        x_count = 0
+        o_count = 0
+        
+        for k in range(0, 3):
+            if board[k][j] == "X":
+                x_count += 1
+            elif board[k][j] == "O":
+                o_count += 1
+        
+        # Rap Up
+        if (x_count == 3):
+            print("You win")
+            winCondition = False
+        elif (o_count == 3):
+            print("You lost")
+            winCondition = False
+    if board[0][0] == "X" and board[1][1] == "X" and board[2][2] == "X":
+        print("You win")
+        winCondition = False
+    elif board[0][2] == "X" and board[1][1] == "X" and board[2][0] == "X":
+        print("You win")
+        winCondition = False
+    elif board[0][0] == "O" and board[1][1] == "O" and board[2][2] == "O":
+        print("You lost")
+        winCondition = False
+    elif board[0][2] == "O" and board[1][1] == "O" and board[2][0] == "O":
+        print("You lost")
+        winCondition = False
+    elif board[0][1] == "X" and board[1][1] == "X" and board[2][1] == "X":
+        print("You win")
+        winCondition = False
+    elif board[0][2] == "X" and board[1][2] == "X" and board[2][2] == "X":
+        print("You win")
+        winCondition = False
+    elif board[0][0] == "X" and board[1][1] == "X" and board[2][2] == "X":
+        print("You win")
+        winCondition = False
+    elif board[0][2] == "X" and board[1][1] == "X" and board[2][0] == "X":
+        print("You win")
+        winCondition = Falsealse
+    '''

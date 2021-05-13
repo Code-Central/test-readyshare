@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    color: white;
+}
+
+li {
+    padding: 16px;
+    border-bottom: 2px solid white;
+}
+
+li:hover {
+    background-color: green;
+}
+
+.navlinks {
+    background-color: black;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+
+
+.imagebanner {
+        background-image: url("image/ROBLOX.jpg");
+        padding: 50px 0;
+        background-size: cover;
+}
+
+h2 {
+    text-align: center;
+    color: black;
+    font-family: 'Train One', cursive;
+    background-color: grey;
+}
+
+
+
+h3 {text-align: center;
+padding: 1%;
+}
+
+.introduction {
+text-align: center;
+color: black;
+font-size: 1.5rem;
+}
+
+img {
+    width: 400px;
+    height: 300px;
+}
+
+.PeoplesGames {
+    text-align: center;
+    margin: 32px;
+}
+
+
+@media screen and (min-width: 700px) {
+    ul {
+        text-align: right;
+    }
+
+    li {
+        display: inline-block;
+        border-bottom: 0px;
+     }
+
+    .game {
+        width: 33%;
+        display: inline-block;
+        vertical-align: top;
+}
+    
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: 'Train One', cursive;
+}
+
+
+}

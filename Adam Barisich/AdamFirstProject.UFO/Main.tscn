@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://vortex.png" type="Texture" id=2]
+[ext_resource path="res://Bomb.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UFO.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Arpent.wav" type="AudioStream" id=5]
+[ext_resource path="res://Bomb-SoundBible.com-891110113.wav" type="AudioStream" id=6]
+[ext_resource path="res://space age.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 7 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 494.72, 295.705 )
+scale = Vector2( 2.98255, 1.57928 )
+texture = ExtResource( 2 )
+
+[node name="Bomb" parent="." instance=ExtResource( 3 )]
+position = Vector2( 879.292, 179.494 )
+
+[node name="UFO" parent="." instance=ExtResource( 4 )]
+position = Vector2( 497.584, 290.825 )
+
+[node name="MainSong" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+
+[node name="Explode" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Score" type="Label" parent="."]
+margin_left = 36.7368
+margin_top = 29.1936
+margin_right = 553.737
+margin_bottom = 51.1936
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.0862745, 0.968627, 0.0352941, 1 )
+text = "Score: 0"
+
+[node name="Lose" type="Label" parent="."]
+margin_left = 158.721
+margin_top = 369.968
+margin_right = 842.721
+margin_bottom = 385.968
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.945098, 0.0509804, 0.0509804, 1 )
+custom_colors/font_outline_modulate = Color( 0.933333, 0.0313726, 0.180392, 1 )
+text = "                Rip You HAVE MET  A TERRIBLE FATE, haven't you?"
+
+[node name="RestartScene" type="Timer" parent="."]
+wait_time = 7.0
+[connection signal="timeout" from="RestartScene" to="." method="_on_RestartScene_timeout"]

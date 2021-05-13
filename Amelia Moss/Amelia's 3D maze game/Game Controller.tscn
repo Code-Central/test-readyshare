@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+
+[sub_resource type="BoxShape" id=2]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 50, 50 )
+
+[node name="Game Controller" type="Node"]
+
+[node name="Level1" type="Spatial" parent="."]
+
+[node name="Player" parent="Level1" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0599875, 0.327738, -0.119258 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Level1/Player"]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
+
+[node name="Camera2" type="Camera" parent="Level1/Player"]
+
+[node name="Ground" type="MeshInstance" parent="Level1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15653, 9.53674e-007, 0.0952387 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
